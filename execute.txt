@@ -1,0 +1,3 @@
+./mvnw package && java -jar target/crud-hero.jar
+docker build -t hero/crud . --name hero
+docker run -d -p 18080:8080 --name hero vincentgwzhang/hero

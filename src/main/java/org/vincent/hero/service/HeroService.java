@@ -9,7 +9,7 @@ import org.vincent.hero.dto.Hero;
 @Service
 public class HeroService
 {
-    private static List<Hero> heroList = new ArrayList<>();
+    private static final List<Hero> heroList = new ArrayList<>();
 
     static {
         heroList.add(new Hero(1, "name1"));
@@ -28,25 +28,22 @@ public class HeroService
     }
 
     public Hero getHeroById(final Integer heroID) {
-        return heroList.stream().filter(hero -> hero.getId() == heroID).findAny().get();
+        return heroList.stream().filter(hero -> hero.getId().equals(heroID)).findAny().orElse(null);
     }
 
-    public void updateHero(final Hero hero) {
-        Optional<Hero> heroOptional = heroList.stream().filter(hero1 -> hero1.getId() == hero.getId()).findFirst();
-        heroOptional.ifPresent(
-            _hero -> {
-                _hero.setName(hero.getName());
-            }
-        );
+    public Hero updateHero(final Hero hero) {
+        Optional<Hero> heroOptional = heroList.stream().filter(hero1 -> hero1.getId().equals(hero.getId())).findFirst();
+        if (heroOptional.isPresent()) {
+            heroOptional.get().setName(hero.getName());
+            return heroOptional.get();
+        } else {
+            return null;
+        }
     }
 
     public void deleteHero(final Integer heroID) {
-        Optional<Hero> heroOptional = heroList.stream().filter(hero1 -> hero1.getId() == heroID).findFirst();
-        heroOptional.ifPresent(
-                _hero -> {
-                    heroList.remove(_hero);
-                }
-        );
+        Optional<Hero> heroOptional = heroList.stream().filter(hero1 -> hero1.getId().equals(heroID)).findFirst();
+        heroOptional.ifPresent(heroList::remove);
     }
 
     public Hero createHero(final Hero hero) {

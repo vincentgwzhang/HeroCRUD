@@ -31,8 +31,8 @@ public class HeroController
     }
 
     @PutMapping("/api/hero")
-    public void updateHero(@RequestBody Hero hero) {
-        heroService.updateHero(hero);
+    public Hero updateHero(@RequestBody Hero hero) {
+        return heroService.updateHero(hero);
     }
 
     @PostMapping("/api/hero")

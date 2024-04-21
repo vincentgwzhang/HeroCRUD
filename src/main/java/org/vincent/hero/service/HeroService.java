@@ -51,7 +51,7 @@ public class HeroService
         if (heroList.isEmpty()) {
             hero.setId(0);
         } else {
-            Hero lastHero = heroList.get(0);
+            Hero lastHero = heroList.getFirst();
             hero.setId(lastHero.getId()+1);
         }
         heroList.add(hero);
